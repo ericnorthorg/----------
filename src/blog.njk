@@ -13,7 +13,7 @@ title: Блог
                 {{ post.date | date("dd.MM.yyyy") }}
             </div>
             <h2 style="margin: 5px 0 15px 0;">
-                <a href="{{ post.url }}" style="text-decoration: none;">{{ post.data.title }}</a>
+                <a href="{{ post.url }}" style="text-decoration: none; color: var(--text-color);">{{ post.data.title }}</a>
             </h2>
             {% if post.data.image %}
                 <img src="{{ post.data.image }}" style="width: 100%; max-height: 300px; object-fit: cover; margin-bottom: 15px; border-radius: 4px;">
@@ -22,7 +22,7 @@ title: Блог
             <a href="{{ post.url }}" style="font-weight: 600; color: var(--accent-color);">Читать далее →</a>
         </article>
         {% else %}
-            <p style="text-align: center;">Записей пока нет.</p>
+            <p style="text-align: center;">Постов пока нет. Зайди в админку и создай первый!</p>
         {% endfor %}
     </div>
 </div>
