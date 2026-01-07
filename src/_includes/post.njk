@@ -11,22 +11,36 @@ layout: base.njk
         <img src="{{ cover }}" style="max-width: 300px; display: block; margin: 0 auto 30px auto; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
     {% endif %}
 
-    <h1 style="font-family: 'Merriweather', serif; font-size: 2.5rem; line-height: 1.2; margin-bottom: 10px; text-align: center;">
-        {{ title }}
-    </h1>
-
-    {% if date %}
-    <div style="text-align: center; color: var(--secondary-text); font-size: 0.9rem; margin-bottom: 40px;">
-        {{ date | date("d MMMM yyyy") }}
+    <div class="lang-content-ru">
+        <h1 style="font-family: 'Merriweather', serif; font-size: 2.5rem; line-height: 1.2; margin-bottom: 10px; text-align: center;">
+            {{ title_ru }}
+        </h1>
+        {% if date %}
+        <div style="text-align: center; color: var(--secondary-text); font-size: 0.9rem; margin-bottom: 40px;">
+            {{ date | date("d MMMM yyyy") }}
+        </div>
+        {% endif %}
+        <div class="post-content">
+            {{ body_ru | safe }}
+        </div>
     </div>
-    {% endif %}
 
-    <div class="post-content">
-        {{ content | safe }}
+    <div class="lang-content-en" style="display: none;">
+        <h1 style="font-family: 'Merriweather', serif; font-size: 2.5rem; line-height: 1.2; margin-bottom: 10px; text-align: center;">
+            {{ title_en }}
+        </h1>
+        {% if date %}
+        <div style="text-align: center; color: var(--secondary-text); font-size: 0.9rem; margin-bottom: 40px;">
+            {{ date | date("MMMM d, yyyy") }}
+        </div>
+        {% endif %}
+        <div class="post-content">
+            {{ body_en | safe }}
+        </div>
     </div>
 
     <div style="margin-top: 50px; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center;">
-        <a href="javascript:history.back()" style="color: var(--accent-color); font-weight: 600;">← Назад</a>
+        <a href="javascript:history.back()" style="color: var(--accent-color); font-weight: 600;">← <span data-translate="back">Назад</span></a>
     </div>
 
 </article>

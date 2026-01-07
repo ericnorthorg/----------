@@ -5,7 +5,6 @@ backend:
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
 
-# Позволяет создавать русские URL (translit)
 slug:
   encoding: "ascii"
   clean_accents: true
@@ -19,12 +18,13 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{slug}}"
     fields:
-      # --- ВАЖНО: Скрытый тег для блога ---
       - {label: "Тег", name: "tags", widget: "hidden", default: "blog"}
-      - {label: "Заголовок", name: "title", widget: "string"}
+      - {label: "Заголовок (RU)", name: "title_ru", widget: "string"}
+      - {label: "Title (EN)", name: "title_en", widget: "string"}
       - {label: "Дата", name: "date", widget: "datetime"}
       - {label: "Обложка", name: "image", widget: "image", required: false}
-      - {label: "Текст", name: "body", widget: "markdown"}
+      - {label: "Текст (RU)", name: "body_ru", widget: "markdown"}
+      - {label: "Text (EN)", name: "body_en", widget: "markdown"}
 
   # 2. КНИГИ
   - name: "books"
@@ -32,12 +32,13 @@ collections:
     folder: "src/books"
     create: true
     fields:
-      # --- ВАЖНО: Скрытый тег для книг ---
       - {label: "Тег", name: "tags", widget: "hidden", default: "books"}
-      - {label: "Название", name: "title", widget: "string"}
+      - {label: "Название (RU)", name: "title_ru", widget: "string"}
+      - {label: "Title (EN)", name: "title_en", widget: "string"}
       - {label: "Обложка", name: "cover", widget: "image"}
-      - {label: "Купить/Скачать (Ссылка)", name: "link", widget: "string", required: false}
-      - {label: "Описание", name: "body", widget: "markdown"}
+      - {label: "Описание (RU)", name: "body_ru", widget: "markdown"}
+      - {label: "Description (EN)", name: "body_en", widget: "markdown"}
+      - {label: "Ссылка/Link", name: "link", widget: "string", required: false}
 
   # 3. ЗАМЕТКИ
   - name: "notes"
@@ -45,8 +46,9 @@ collections:
     folder: "src/notes"
     create: true
     fields:
-      # --- ВАЖНО: Скрытый тег для заметок ---
       - {label: "Тег", name: "tags", widget: "hidden", default: "notes"}
-      - {label: "Тема", name: "title", widget: "string"}
+      - {label: "Тема (RU)", name: "title_ru", widget: "string"}
+      - {label: "Topic (EN)", name: "title_en", widget: "string"}
       - {label: "Дата", name: "date", widget: "datetime"}
-      - {label: "Содержание", name: "body", widget: "markdown"}
+      - {label: "Текст (RU)", name: "body_ru", widget: "markdown"}
+      - {label: "Text (EN)", name: "body_en", widget: "markdown"}
