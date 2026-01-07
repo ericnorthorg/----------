@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric North | Mystic Fantasy Author</title>
+    
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 5 L15 60 L50 95 L50 5 Z" fill="%231F2937"/><path d="M50 5 L85 60 L50 95 L50 5 Z" fill="%23059669"/><path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/></svg>'>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- НАСТРОЙКИ ЦВЕТОВ (ТВОИ) --- */
+        :root {
+            /* Светлая тема */
+            --bg-color: #ffffff;
+            --text-color: #222222;
+            --nav-bg: #ffffff;
+            --accent-color: #ff500a;
+            --accent-hover: #e04508;
+            --border-color: #eeeeee;
+            --secondary-text: #666666;
+            --hero-overlay: rgba(255,255,255,0.85); /* Чуть плотнее для строгости */
+            --modal-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: #f9f9f9; /* Фон для карточек */
+        }
+
+        [data-theme="dark"] {
+            /* Темная тема */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --nav-bg: #1a1a1a;
+            --accent-color: #ff6b35; 
+            --accent-hover: #ff8c61;
+            --border-color: #333333;
+            --secondary-text: #aaaaaa;
+            --hero-overlay: rgba(0,0,0,0.8);
+            --modal-bg: rgba(18, 18, 18, 0.95);
+            --card-bg: #1e1e1e;
+        }
+
+        /* --- ОБЩИЕ СТИЛИ --- */
+        * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Source Sans Pro', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Merriweather', serif; }
+        a { text-decoration: none; color: var(--text-color); }
+
+        /* --- ШАПКА (ТВОИ СТИЛИ) --- */
+        header { background-color: var(--nav-bg); border-bottom: 1px solid var(--border-color); padding: 15px 40px; position: sticky; top: 0; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-svg { width: 45px; height: 45px; transition: transform 0.3s ease; }
+        .logo-text { font-family: 'Merriweather', serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-color); line-height: 1; }
+        .logo-text span { color: var(--accent-color); }
+        .logo-link:hover .logo-svg { transform: scale(1.05); }
+        [data-theme="dark"] .logo-svg { filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3)); }
+        .main-menu { display: flex; gap: 30px; }
+        .main-menu a { font-weight: 600; font-size: 1rem; position: relative; }
+        .main-menu a:hover { color: var(--accent-color); }
+        .actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--text-color); font-size: 1.1rem; }
+        .icon-btn:hover { color: var(--accent-color); }
+        .btn-subscribe { background-color: var(--accent-color); color: white; padding: 8px 20px; border-radius: 20px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
+        .btn-subscribe:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
+        .lang-switch { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+
+        /* --- ПОИСК --- */
+        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); z-index: 2000; display: flex; justify-content: center; align-items: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
+        .search-modal.active { opacity: 1; pointer-events: all; }
+        .close-search { position: absolute; top: 30px; right: 40px; font-size: 2rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
+        .search-container { width: 100%; max-width: 800px; padding: 0 20px; text-align: center; }
+        .search-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--secondary-text); font-family: 'Merriweather', serif; font-size: 2rem; color: var(--text-color); padding: 10px 0; outline: none; }
+        .search-input::placeholder { color: var(--secondary-text); opacity: 0.5; font-style: italic; }
+        .search-hint { margin-top: 15px; color: var(--secondary-text); font-size: 0.9rem; }
+
+        /* --- НОВЫЙ MAIN (СТИЛЬ РЕФЕРЕНСА) --- */
+        /* Переписываем поведение main, чтобы он не центрировал всё по вертикали */
+        main { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative;
+            padding: 0; /* Убираем старые отступы */
+        }
+
+        /* Верхняя секция (Имя + Роль) */
+        .hero-section {
+            height: 60vh; /* Высота верхней части */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Тот же фон, что и был */
+            background-image: url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--hero-overlay); }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 0 20px; }
+
+        .hero-title-large {
+            font-size: 4rem;
+            margin: 0;
+            color: var(--text-color);
+            letter-spacing: -1px;
+            font-weight: 700;
+            line-height: 1.1;
+            /* text-transform: uppercase;  Если нужно, раскомментируйте */
+        }
+
+        .hero-role {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-top: 15px;
+            font-family: 'Source Sans Pro', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+
+        /* Секция с карточками (3 штуки) */
+        .featured-cards-container {
+            max-width: 1000px;
+            margin: -60px auto 60px; /* Заезжаем на верхнюю секцию (-60px) */
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-card {
+            background-color: var(--card-bg);
+            padding: 40px 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
+        }
+
+        .link-card i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .link-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .link-card p {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-top: 10px;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        /* --- ФУТЕР (ТВОИ СТИЛИ) --- */
+        footer { background-color: var(--nav-bg); border-top: 1px solid var(--border-color); padding: 40px 20px 20px 20px; margin-top: auto; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding-bottom: 30px; }
+        .footer-socials { display: flex; gap: 15px; }
+        .footer-socials a { font-size: 1.2rem; color: var(--secondary-text); }
+        .footer-socials a:hover { color: var(--accent-color); }
+        .copyright { width: 100%; max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center; font-size: 0.85rem; color: var(--secondary-text); }
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            .logo-link { margin-bottom: 5px; }
+            .main-menu { gap: 15px; font-size: 0.9rem; }
+            .footer-container { flex-direction: column; gap: 20px; text-align: center; }
+            .footer-socials { justify-content: center; }
+            
+            /* Адаптив нового контента */
+            .hero-title-large { font-size: 2.5rem; }
+            .hero-role { font-size: 1.2rem; }
+            .featured-cards-container { grid-template-columns: 1fr; margin-top: 0; padding-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="searchModal" class="search-modal">
+        <button class="close-search" onclick="toggleSearch()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Введите название книги или темы..." autocomplete="off">
+            <p class="search-hint" data-translate="search_hint">Нажмите Enter для поиска</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo-link">
+                <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#1F2937"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#059669"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div class="logo-text">ERIC <span>NORTH</span></div>
+            </a>
+
+            <nav class="main-menu">
+                <a href="#" data-translate="home">Главная</a>
+                <a href="#" data-translate="blog">Блог</a>
+                <a href="#" data-translate="books">Книги</a>
+                <a href="#" data-translate="notes">Заметки</a>
+            </nav>
+
+            <div class="actions">
+                <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <span class="lang-switch icon-btn" onclick="toggleLanguage()">EN</span>
+                <button class="icon-btn" onclick="toggleTheme()" title="Switch Theme"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
+                <button class="btn-subscribe" data-translate="subscribe">Подписаться</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title-large">
+                    <span data-translate="hero_part1">Архитектура</span> 
+                    <span style="color: var(--accent-color);" data-translate="hero_part2">иных миров</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="featured-cards-container">
+            <a href="#" class="link-card">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <h3 data-translate="blog_card">Истории</h3>
+                <p data-translate="stories_desc">Короткая проза и черновики</p>
+            </a>
+            <a href="#" class="link-card">
+                <i class="fa-solid fa-book-open"></i>
+                <h3 data-translate="books">Книги</h3>
+                <p data-translate="books_desc">Мои опубликованные романы</p>
+            </a>
+            <a href="#" class="link-card">
+                <i class="fa-regular fa-note-sticky"></i>
+                <h3 data-translate="notes">Заметки</h3>
+                <p data-translate="notes_desc">Мысли и объявления</p>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <a href="#" class="logo-link">
+                <svg class="logo-svg" style="width: 40px; height: 40px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 5 L15 60 L50 95 L50 5 Z" fill="#1F2937"/>
+                    <path d="M50 5 L85 60 L50 95 L50 5 Z" fill="#059669"/>
+                    <path d="M50 40 L50 85" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div class="logo-text" style="font-size: 1.2rem;">ERIC <span>NORTH</span></div>
+            </a>
+
+            <nav class="main-menu">
+                <a href="#" data-translate="home">Главная</a>
+                <a href="#" data-translate="blog">Блог</a>
+                <a href="#" data-translate="books">Книги</a>
+                <a href="#" data-translate="notes">Заметки</a>
+            </nav>
+
+            <div class="footer-socials">
+                <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>
+                &copy; 2026 Eric North. 
+                <span data-translate="rights">Все права защищены.</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            ru: {
+                home: "Главная", blog: "Блог", books: "Книги", notes: "Заметки", subscribe: "Подписаться",
+                search_placeholder: "Введите название книги или темы...", search_hint: "Нажмите Enter для поиска",
+                rights: "Все права защищены.",
+                
+                // Новые переводы для главной
+                hero_part1: "Архитектура",
+                hero_part2: "иных миров",
+                blog_card: "Истории",
+                stories_desc: "Короткая проза и черновики",
+                books_desc: "Мои опубликованные романы",
+                notes_desc: "Мысли и объявления"
+            },
+            en: {
+                home: "Home", blog: "Blog", books: "Books", notes: "Notes", subscribe: "Subscribe",
+                search_placeholder: "Type book title or topic...", search_hint: "Press Enter to search",
+                rights: "All rights reserved.",
+                
+                // New translations for main
+                hero_part1: "Architecture",
+                hero_part2: "of Other Worlds",
+                blog_card: "Stories",
+                stories_desc: "Short fiction and drafts",
+                books_desc: "My published novels",
+                notes_desc: "Thoughts and announcements"
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ru' ? 'en' : 'ru';
+            document.querySelector('.lang-switch').textContent = currentLang === 'ru' ? 'EN' : 'RU';
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+            document.getElementById('searchInput').placeholder = translations[currentLang]['search_placeholder'];
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon'); icon.classList.add('fa-sun');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                icon.classList.remove('fa-sun'); icon.classList.add('fa-moon');
+            }
+        }
+
+        function toggleSearch() {
+            const modal = document.getElementById('searchModal');
+            const input = document.getElementById('searchInput');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) setTimeout(() => input.focus(), 100);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") document.getElementById('searchModal').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
