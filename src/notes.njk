@@ -1,0 +1,17 @@
+---
+layout: base.njk
+title: Заметки
+---
+<div style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
+    <h1>Заметки</h1>
+    <ul>
+    {% for note in collections.notes %}
+        <li>
+            <strong>{{ note.date | date("dd.MM.yyyy") }}</strong>: 
+            <a href="{{ note.url }}">{{ note.data.title }}</a>
+        </li>
+    {% else %}
+        <p>Заметок нет.</p>
+    {% endfor %}
+    </ul>
+</div>
