@@ -35,6 +35,8 @@
         .btn-subscribe { background-color: var(--accent-color); color: white; padding: 8px 20px; border-radius: 20px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
         .btn-subscribe:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
         .lang-switch { font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+        
+        /* Модальные окна */
         .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--modal-bg); z-index: 2000; display: flex; justify-content: center; align-items: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
         .search-modal.active { opacity: 1; pointer-events: all; }
         .close-search { position: absolute; top: 30px; right: 40px; font-size: 2rem; background: none; border: none; color: var(--text-color); cursor: pointer; }
@@ -42,6 +44,13 @@
         .search-input { width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--secondary-text); font-family: 'Merriweather', serif; font-size: 2rem; color: var(--text-color); padding: 10px 0; outline: none; }
         .search-input::placeholder { color: var(--secondary-text); opacity: 0.5; font-style: italic; }
         .search-hint { margin-top: 15px; color: var(--secondary-text); font-size: 0.9rem; }
+        
+        /* Стили формы подписки */
+        .subscribe-form { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 500px; margin: 0 auto; }
+        .subscribe-input { padding: 15px; font-size: 1.2rem; border: 1px solid var(--secondary-text); background: transparent; color: var(--text-color); border-radius: 4px; }
+        .subscribe-submit { padding: 15px; font-size: 1.2rem; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
+        .subscribe-submit:hover { background: var(--accent-hover); }
+
         main { flex: 1; display: flex; flex-direction: column; position: relative; padding: 0; }
         .hero-section { height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; background-image: url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; position: relative; }
         .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--hero-overlay); }
@@ -61,7 +70,6 @@
         .footer-socials a:hover { color: var(--accent-color); }
         .copyright { width: 100%; max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center; font-size: 0.85rem; color: var(--secondary-text); }
         
-        /* Стили для адаптивных картинок внутри постов */
         .post-content img, .post-content iframe, .post-content video { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 4px; }
         .post-content p { margin-bottom: 20px; }
 
@@ -75,6 +83,18 @@
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Введите название книги или темы..." autocomplete="off">
             <p class="search-hint" data-translate="search_hint">Нажмите Enter для поиска</p>
+        </div>
+    </div>
+
+    <div id="subscribeModal" class="search-modal">
+        <button class="close-search" onclick="toggleSubscribe()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="search-container">
+            <h2 style="font-family: 'Merriweather'; margin-bottom: 30px;" data-translate="join_news">Присоединяйтесь к нам</h2>
+            <form name="subscribe" method="POST" data-netlify="true" class="subscribe-form">
+                <input type="email" name="email" class="subscribe-input" placeholder="Email" required>
+                <button type="submit" class="subscribe-submit" data-translate="subscribe_btn">Подписаться</button>
+            </form>
+            <p class="search-hint" data-translate="spam_note">Никакого спама, только магия.</p>
         </div>
     </div>
 
@@ -100,7 +120,7 @@
                 <button class="icon-btn" onclick="toggleSearch()" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <span class="lang-switch icon-btn" onclick="toggleLanguage()">EN</span>
                 <button class="icon-btn" onclick="toggleTheme()" title="Switch Theme"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
-                <button class="btn-subscribe" data-translate="subscribe">Подписаться</button>
+                <button class="btn-subscribe" onclick="toggleSubscribe()" data-translate="subscribe">Подписаться</button>
             </div>
         </div>
     </header>
@@ -150,7 +170,9 @@
                 rights: "Все права защищены.", back: "Назад",
                 hero_part1: "Архитектура", hero_part2: "иных миров", 
                 blog_card: "Истории", stories_desc: "Короткая проза и черновики", 
-                books_desc: "Мои опубликованные романы", notes_desc: "Мысли и объявления"
+                books_desc: "Мои опубликованные романы", notes_desc: "Мысли и объявления",
+                // Новые переводы для подписки
+                join_news: "Новости и обновления", subscribe_btn: "Подписаться", spam_note: "Никакого спама, только магия."
             },
             en: {
                 home: "Home", blog: "Blog", books: "Books", notes: "Notes", subscribe: "Subscribe",
@@ -158,7 +180,9 @@
                 rights: "All rights reserved.", back: "Back",
                 hero_part1: "Architecture", hero_part2: "of Other Worlds", 
                 blog_card: "Stories", stories_desc: "Short fiction and drafts", 
-                books_desc: "My published novels", notes_desc: "Thoughts and announcements"
+                books_desc: "My published novels", notes_desc: "Thoughts and announcements",
+                // New translations for subscribe
+                join_news: "News & Updates", subscribe_btn: "Subscribe", spam_note: "No spam, just magic."
             }
         };
 
@@ -209,8 +233,17 @@
             if (modal.classList.contains('active')) setTimeout(() => input.focus(), 100);
         }
 
+        // НОВАЯ ФУНКЦИЯ ДЛЯ ПОДПИСКИ
+        function toggleSubscribe() {
+            const modal = document.getElementById('subscribeModal');
+            modal.classList.toggle('active');
+        }
+
         document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") document.getElementById('searchModal').classList.remove('active');
+            if (event.key === "Escape") {
+                document.getElementById('searchModal').classList.remove('active');
+                document.getElementById('subscribeModal').classList.remove('active');
+            }
         });
     </script>
 </body>
