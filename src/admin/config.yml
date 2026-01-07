@@ -5,12 +5,42 @@ backend:
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
 
+# Позволяет создавать русские URL (translit)
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
 collections:
+  # 1. БЛОГ
   - name: "blog"
     label: "Блог"
     folder: "src/blog"
     create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
     fields:
       - {label: "Заголовок", name: "title", widget: "string"}
       - {label: "Дата", name: "date", widget: "datetime"}
+      - {label: "Обложка", name: "image", widget: "image", required: false}
       - {label: "Текст", name: "body", widget: "markdown"}
+
+  # 2. КНИГИ
+  - name: "books"
+    label: "Книги"
+    folder: "src/books"
+    create: true
+    fields:
+      - {label: "Название", name: "title", widget: "string"}
+      - {label: "Обложка", name: "cover", widget: "image"}
+      - {label: "Купить/Скачать (Ссылка)", name: "link", widget: "string", required: false}
+      - {label: "Описание", name: "body", widget: "markdown"}
+
+  # 3. ЗАМЕТКИ
+  - name: "notes"
+    label: "Заметки"
+    folder: "src/notes"
+    create: true
+    fields:
+      - {label: "Тема", name: "title", widget: "string"}
+      - {label: "Дата", name: "date", widget: "datetime"}
+      - {label: "Содержание", name: "body", widget: "markdown"}
