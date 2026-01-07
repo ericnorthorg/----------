@@ -1,12 +1,25 @@
 module.exports = function(eleventyConfig) {
-  // Говорим движку копировать папку админки и картинки как есть
+  // 1. Копируем папки админки и ассетов
   eleventyConfig.addPassthroughCopy("src/admin");
-  eleventyConfig.addPassthroughCopy("src/assets"); // Если будут картинки
+  eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy("src/style.css"); // На всякий случай
 
+  // 2. Учим движок красиво форматировать дату (ЧТОБЫ БЛОГ ЗАРАБОТАЛ)
+  eleventyConfig.addFilter("date", function(dateVal) {
+    if (!dateVal) return "";
+    const date = new Date(dateVal);
+    return date.toLocaleDateString("ru-RU", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  });
+
+  // 3. Настройки папок
   return {
     dir: {
-      input: "src",    // Отсюда берем файлы
-      output: "public" // Сюда Netlify положит готовый сайт
+      input: "src",    // Откуда брать
+      output: "public" // Куда класть
     }
   };
 };
