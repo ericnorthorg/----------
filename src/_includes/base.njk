@@ -188,30 +188,26 @@
 
         let currentLang = 'ru';
 
-        function toggleLanguage() {
+        ffunction toggleLanguage() {
             currentLang = currentLang === 'ru' ? 'en' : 'ru';
             document.querySelector('.lang-switch').textContent = currentLang === 'ru' ? 'EN' : 'RU';
             
-            // 1. Перевод меню и интерфейса
+            // 1. Перевод меню (data-translate)
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.getAttribute('data-translate');
                 if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
             });
             document.getElementById('searchInput').placeholder = translations[currentLang]['search_placeholder'];
 
-            // 2. Переключение контента статьи (RU / EN)
-            const ruContent = document.querySelector('.lang-content-ru');
-            const enContent = document.querySelector('.lang-content-en');
-            
-            if (ruContent && enContent) {
-                if (currentLang === 'ru') {
-                    ruContent.style.display = 'block';
-                    enContent.style.display = 'none';
-                } else {
-                    ruContent.style.display = 'none';
-                    enContent.style.display = 'block';
-                }
-            }
+            // 2. Переключение блоков контента (ВСЕХ НА СТРАНИЦЕ)
+            // Скрываем/показываем ВСЕ элементы с классом lang-content-ru
+            document.querySelectorAll('.lang-content-ru').forEach(el => {
+                el.style.display = (currentLang === 'ru') ? 'block' : 'none';
+            });
+            // Скрываем/показываем ВСЕ элементы с классом lang-content-en
+            document.querySelectorAll('.lang-content-en').forEach(el => {
+                el.style.display = (currentLang === 'en') ? 'block' : 'none';
+            });
         }
 
         function toggleTheme() {

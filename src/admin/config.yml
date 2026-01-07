@@ -19,6 +19,9 @@ collections:
     slug: "{{year}}-{{month}}-{{slug}}"
     fields:
       - {label: "Тег", name: "tags", widget: "hidden", default: "blog"}
+      # --- ДОБАВЛЕНО ПОЛЕ КАТЕГОРИИ ---
+      - {label: "Категория", name: "category", widget: "select", options: ["stories", "news", "lore"], default: "stories"}
+      # -------------------------------
       - {label: "Заголовок (RU)", name: "title_ru", widget: "string"}
       - {label: "Title (EN)", name: "title_en", widget: "string"}
       - {label: "Дата", name: "date", widget: "datetime"}
